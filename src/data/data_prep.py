@@ -2,8 +2,8 @@
 from pathlib import Path
 import pandas as pd
 
-# --- Paths: resolve from project root (parent of src) ---
-ROOT = Path(__file__).resolve().parents[1]
+# --- Paths: resolve from project root (parent of src/data) ---
+ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = ROOT / "data" / "raw"
 PROC_DIR = ROOT / "data" / "processed"
 PROC_DIR.mkdir(parents=True, exist_ok=True)
@@ -41,6 +41,8 @@ def save_data(df, file_path: Path) -> None:
         df.to_csv(file_path, index=False)
     except Exception as e:
         raise Exception(f"Error saving data to {file_path}: {e}")
+
+
 
 
 

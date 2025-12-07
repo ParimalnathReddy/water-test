@@ -1,6 +1,9 @@
+
+'''
 import pandas as pd
 import numpy as np
 import os
+from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 import yaml
@@ -14,7 +17,7 @@ def load_params(file_path : str) -> dict:
         raise Exception(f"Error loading parameters from {file_path}: {e}")
 
 
-#data = pd.read_csv(r"/Users/parimal/Desktop/PYTHON/PYTHONPRACTICE/PROJECTS/ml_pipeline/original_data/water_potability.csv")
+# data = pd.read_csv(r"/Users/parimal/Desktop/PYTHON/PYTHONPRACTICE/PROJECTS/ml_pipeline/original_data/water_potability.csv")
 
 def load_data(file_path: str) -> pd.DataFrame:
     try:
@@ -25,7 +28,7 @@ def load_data(file_path: str) -> pd.DataFrame:
 
 
 #train_data , test_data = train_test_split(data, test_size=params['data_collection']['test_size'], random_state=42) 
-#modular code 
+# modular code 
 
 def split_data(data: pd.DataFrame, test_size: float, random_state: int) -> tuple[pd.DataFrame, pd.DataFrame]:
     try:
@@ -49,13 +52,13 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, project_root: s
 
 def main():
     try:
-        # Assuming the script is in 'src', project_root is one level up.
-        project_root = os.path.join(os.path.dirname(__file__), '..')
+        # The project root is two levels up from this script's directory (src/data)
+        project_root = Path(__file__).resolve().parents[2]
         
-        # The params file is inside the src directory
-        params = load_params('params.yaml')
+        # The params file is at the project root
+        params = load_params(project_root / 'params.yaml')
         
-        original_data_path = os.path.join(project_root, 'original_data', 'water_potability.csv')
+        original_data_path = project_root / 'original_data' / 'water_potability.csv'
         data = load_data(original_data_path)
         
         test_size = params['data_collection']['test_size']
@@ -66,6 +69,60 @@ def main():
         print("Data collection, splitting, and saving completed successfully.")
     except Exception as e:
         print(f"Error in data collection process: {e}")    
-        
+
+
+
+
+
+if __name__ == "__main__":
+    main()
+'''
+
+
+
+from pathlib import Path
+import os
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import yaml
+
+def load_params(file_path: str) -> dict:
+    with open(file_path, 'r') as file:
+        return yaml.safe_load(file)
+
+def load_data(file_path: str) -> pd.DataFrame:
+    return pd.read_csv(file_path)
+
+def split_data(data: pd.DataFrame, test_size: float, random_state: int):
+    return train_test_split(data, test_size=test_size, random_state=random_state)
+
+def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, project_root: Path) -> None:
+    data_path = project_root / 'data' / 'raw'
+    os.makedirs(data_path, exist_ok=True)
+    train_data.to_csv(data_path / 'train_data.csv', index=False)
+    test_data.to_csv(data_path / 'test_data.csv', index=False)
+
+def main():
+    try:
+        # project root: water-potability-prediction/
+        project_root = Path(__file__).resolve().parents[2]
+
+        # params.yaml in project root
+        params = load_params(project_root / 'params.yaml')
+
+        # ORIGINAL CSV in data/external
+        original_data_path = project_root / 'data' / 'external' / 'water_potability.csv'
+        data = load_data(original_data_path)
+
+        test_size = params['data_collection']['test_size']
+        random_state = params['data_collection']['random_state']
+
+        train_data, test_data = split_data(data, test_size=test_size, random_state=random_state)
+        save_data(train_data, test_data, project_root)
+
+        print("Data collection, splitting, and saving completed successfully.")
+    except Exception as e:
+        print(f"Error in data collection process: {e}")
+
 if __name__ == "__main__":
     main()
