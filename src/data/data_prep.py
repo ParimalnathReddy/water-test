@@ -27,9 +27,9 @@ def fill_missing_with_median(df: pd.DataFrame) -> pd.DataFrame:
     try:
         # compute medians only for numeric columnss
             #medians = df.select_dtypes(include="number").median()
-            mean_value = df.select_dtypes(include="number").mean()
+            medians = df.select_dtypes(include="number").mean()
             # return a new frame with NA filled (no inplace, avoids FutureWarning)
-            return df.copy().fillna(mean_value)
+            return df.copy().fillna(medians)
     except Exception as e:
         raise Exception(f"Error filling missing values: {e}")
 
@@ -59,8 +59,8 @@ def main():
         test_processed  = fill_missing_with_median(test_data)
         
         # Save processed data
-        save_data(train_processed, PROC_DIR / "train_processed.csv")
-        save_data(test_processed, PROC_DIR / "test_processed.csv")
+        save_data(train_processed, PROC_DIR / "train_processed_median.csv")
+        save_data(test_processed, PROC_DIR / "test_processed_median.csv")
         print("Data preparation completed successfully.")
     except Exception as e:
         print(f"Error in data preparation: {e}")
