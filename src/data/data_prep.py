@@ -25,10 +25,11 @@ def load_data(file_path: Path) -> pd.DataFrame:
 # --- Utilities (no chained assignment) ---
 def fill_missing_with_median(df: pd.DataFrame) -> pd.DataFrame:
     try:
-        # compute medians only for numeric columns
-            medians = df.select_dtypes(include="number").median()
+        # compute medians only for numeric columnss
+            #medians = df.select_dtypes(include="number").median()
+            mean_value = df.select_dtypes(include="number").mean()
             # return a new frame with NA filled (no inplace, avoids FutureWarning)
-            return df.copy().fillna(medians)
+            return df.copy().fillna(mean_value)
     except Exception as e:
         raise Exception(f"Error filling missing values: {e}")
 
