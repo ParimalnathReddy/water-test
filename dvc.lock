@@ -14,11 +14,11 @@ stages:
     params:
       params.yaml:
         data_collection.random_state: 42
-        data_collection.test_size: 0.2
+        data_collection.test_size: 0.4
     outs:
     - path: data/raw
       hash: md5
-      md5: dc5955cc1831374c1b29236c621c6725.dir
+      md5: 579f5c01b0f043d2adeec47dbb4dd6ac.dir
       size: 520443
       nfiles: 2
   pre_processing:
@@ -26,56 +26,56 @@ stages:
     deps:
     - path: data/raw
       hash: md5
-      md5: dc5955cc1831374c1b29236c621c6725.dir
+      md5: 579f5c01b0f043d2adeec47dbb4dd6ac.dir
       size: 520443
       nfiles: 2
     - path: src/data/data_prep.py
       hash: md5
-      md5: c28100ec2d85dd507814d52fc0255a18
-      size: 2152
+      md5: a8aedbca687a2b721c5dd124a070161c
+      size: 2160
     outs:
     - path: data/processed
       hash: md5
-      md5: b7b192701669b1e5efcb8878319ba70c.dir
-      size: 545356
+      md5: a8d4beb19b412e00221be3e19ea04794.dir
+      size: 544721
       nfiles: 2
   model_building:
     cmd: python src/models/model_building.py
     deps:
     - path: data/processed
       hash: md5
-      md5: b7b192701669b1e5efcb8878319ba70c.dir
-      size: 545356
+      md5: a8d4beb19b412e00221be3e19ea04794.dir
+      size: 544721
       nfiles: 2
     - path: src/models/model_building.py
       hash: md5
-      md5: 8b32a67dcf1d423b427bebfe8e0eb8f7
-      size: 3266
+      md5: 9ea35236b9c5ab72b470479b110d2099
+      size: 3298
     params:
       params.yaml:
-        model_building.n_estimators: 100
+        model_building.n_estimators: 1000
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: 6ea8131009220a4a79281afec298bbcc
-      size: 7342261
+      md5: b1580bc3673cb085bc5b81bcce8a6b68
+      size: 56063129
   model_eval:
     cmd: python src/models/model_eval.py
     deps:
-    - path: data/processed/test_processed.csv
+    - path: data/processed/test_processed_median.csv
       hash: md5
-      md5: 5240b534a00342bdbb38b8d694270538
-      size: 109026
+      md5: cb0da35802eb6b011e82eb5c787cf32d
+      size: 218027
     - path: models/model.pkl
       hash: md5
-      md5: 6ea8131009220a4a79281afec298bbcc
-      size: 7342261
+      md5: b1580bc3673cb085bc5b81bcce8a6b68
+      size: 56063129
     - path: src/models/model_eval.py
       hash: md5
-      md5: 0da253d8c0ef90b104eb1155389eaf57
-      size: 3236
+      md5: 570ac3355d473fcdc59e86277d73e0c3
+      size: 4023
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 75d59cac0c8a538b7a4e7f2ff25b1f12
-      size: 145
+      md5: b8acca0f6cfb25fd4e96fd74eaebd757
+      size: 144

@@ -13,27 +13,34 @@ stages:
   pre_processing:
     cmd: python src/data/data_prep.py
     deps:
-    - data/raw
     - src/data/data_prep.py
+    - data/raw
     outs:
     - data/processed
 
   model_building:
     cmd: python src/models/model_building.py
     deps:
-    - data/processed
     - src/models/model_building.py
+    - data/processed
     params:
     - model_building.n_estimators
     outs:
     - models/model.pkl
-    
+
   model_eval:
     cmd: python src/models/model_eval.py
     deps:
-      - src/models/model_eval.py
-      - models/model.pkl
-      - data/processed/test_processed.csv   # only if your eval uses this
+    - src/models/model_eval.py
+    - models/model.pkl
+    - data/processed/test_processed_median.csv
     metrics:
-      - reports/metrics.json
+    - reports/metrics.json
 
+params:
+- dvclive/params.yaml
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step
