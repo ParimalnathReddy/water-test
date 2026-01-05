@@ -3,6 +3,9 @@ water-potability-prediction
 
 this is water potability prediction using ML
 
+URL: https://water-testing-1.onrender.com/docs#/default
+
+
 Project Organization
 ------------
 
