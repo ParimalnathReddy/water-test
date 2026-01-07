@@ -60,10 +60,6 @@ This project intentionally mirrors how production analytics systems are designed
 ## Dataset
 **Source:** Public water quality dataset (replace with exact source link)
 
-**Size:**
-- ~XX,XXX records  
-- ~X sensor features  
-- Time-series observations  
 
 **Key Data Challenges Observed:**
 - Missing sensor readings  
@@ -157,7 +153,6 @@ Key transformations:
 - Imputation strategies  
 - Normalization / scaling  
 - Derived sensor ratios  
-- Temporal aggregates (if applicable)  
 - Outlier handling  
 
 All transformations are deterministic and versioned.
@@ -183,13 +178,7 @@ Model selection prioritizes:
 - Monitoring simplicity  
 - Deployment reliability  
 
----
 
-
-**Impact Interpretation:**
-- ~20% improvement in risk detection accuracy  
-- ~50% reduction in missed contamination events  
-- ~2× faster pipeline execution  
 
 ---
 
