@@ -178,6 +178,24 @@ Model selection prioritizes:
 - Monitoring simplicity  
 - Deployment reliability  
 
+---
+
+## Actual Results (Latest Tracked Run)
+The following metrics are from the latest committed training/evaluation run:
+
+| Metric | Value |
+|--------|-------|
+| Accuracy | `0.6819` |
+| Precision | `0.6740` |
+| Recall | `0.6819` |
+| F1 Score | `0.6525` |
+
+**Source artifacts:**
+- `dvclive/metrics.json`
+- `dvclive/plots/metrics/accuracy.tsv`
+- `dvclive/plots/metrics/precision.tsv`
+- `dvclive/plots/metrics/recall.tsv`
+- `dvclive/plots/metrics/f1_score.tsv`
 
 
 ---
